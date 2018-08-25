@@ -1,5 +1,5 @@
-package models.Shift.Info;
-import models.Date;
+package models.shift.info;
+import java.util.Date;
 
 public class WorkedTime {
     private int regular;

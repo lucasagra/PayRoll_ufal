@@ -1,4 +1,4 @@
-package models.Employees.Info;
+package models.employees.info;
 
 public class Address {
     private String street;

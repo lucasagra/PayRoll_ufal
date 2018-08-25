@@ -1,11 +1,11 @@
-package models.Employees.Info;
+package models.employees.info;
 
-public class Sindicate {
+public class Syndicate {
 
     private boolean joined;
     private double tax;
 
-    public Sindicate(boolean joined, double tax){
+    public Syndicate(boolean joined, double tax){
         this.joined = joined;
         this.tax = tax;
     }

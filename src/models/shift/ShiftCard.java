@@ -1,8 +1,9 @@
-package models.Shift;
+package models.shift;
 
-import models.Date;
-import models.Employees.Employee;
-import models.Shift.Info.WorkedTime;
+import models.employees.Employee;
+import models.shift.info.WorkedTime;
+
+import java.util.Date;
 
 public class ShiftCard {
     private Employee employee;
