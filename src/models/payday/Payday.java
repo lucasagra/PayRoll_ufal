@@ -1,5 +1,7 @@
 package models.payday;
 
-public class Payday {
+import java.io.Serializable;
+
+public class Payday implements Serializable {
 
 }

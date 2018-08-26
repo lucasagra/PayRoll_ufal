@@ -1,7 +1,8 @@
 package models.shift.info;
+import java.io.Serializable;
 import java.util.Date;
 
-public class WorkedTime {
+public class WorkedTime implements Serializable {
     private int regular;
     private int extra;
 

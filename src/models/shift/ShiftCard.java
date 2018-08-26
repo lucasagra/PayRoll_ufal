@@ -3,9 +3,10 @@ package models.shift;
 import models.employees.Employee;
 import models.shift.info.WorkedTime;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ShiftCard {
+public class ShiftCard implements Serializable {
     private Employee employee;
     private WorkedTime worked_time;
     private Date date;

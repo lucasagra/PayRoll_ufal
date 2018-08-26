@@ -2,10 +2,14 @@ package models.employees.info.payment;
 
 import models.payday.Payday;
 
-public class Payment {
-    private Payday payday;
+import java.io.Serializable;
 
-    public Payment(Payday payday){
+public class Payment implements Serializable {
+    private Payday payday;
+    private double salary;
+
+    public Payment(Payday payday, double salary){
         this.payday = payday;
+        this.salary = salary;
     }
 }

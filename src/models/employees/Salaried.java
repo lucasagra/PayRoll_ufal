@@ -3,18 +3,18 @@ package models.employees;
 import models.employees.info.Address;
 import models.employees.info.Syndicate;
 import models.employees.info.payment.Payment;
-import models.payday.WeeklyPayday;
+import models.payday.MonthlyPayday;
 
-public class Hourly extends Employee {
+public class Salaried extends Employee {
 
     private Payment payment_schedule;
 
-    public Hourly(int id, String name, Address address, Syndicate syndicate){
+    public Salaried(int id, String name, Address address, Syndicate syndicate, double salary){
         super(id, name, address, syndicate);
-        this.payment_schedule = new Payment(new WeeklyPayday(1,5), 0);
+        this.payment_schedule = new Payment(new MonthlyPayday("1"), salary);
     }
 
-    public Hourly(int id, String name, Address address, Syndicate syndicate, Payment payment_schedule){
+    public Salaried(int id, String name, Address address, Syndicate syndicate, Payment payment_schedule){
         super(id, name, address, syndicate);
         this.payment_schedule = payment_schedule;
     }

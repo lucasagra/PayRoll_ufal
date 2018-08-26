@@ -4,7 +4,7 @@ import models.payday.Payday;
 
 public class Delivery extends Payment{
 
-    public Delivery(Payday payday){
-        super(payday);
+    public Delivery(Payday payday, double amount){
+        super(payday, amount);
     }
 }
