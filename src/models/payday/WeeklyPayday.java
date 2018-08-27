@@ -9,4 +9,12 @@ public class WeeklyPayday extends Payday {
         this.frequency = frequency;
         this.day = day;
     }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public int getDay() {
+        return day;
+    }
 }

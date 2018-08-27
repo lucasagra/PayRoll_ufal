@@ -42,4 +42,8 @@ public class Employee implements Serializable {
     public WorkedTime getWorked_hours() {
         return worked_hours;
     }
+
+    public void setWorked_hours(WorkedTime worked_hours) {
+        this.worked_hours = worked_hours;
+    }
 }

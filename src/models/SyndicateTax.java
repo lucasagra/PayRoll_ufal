@@ -1,14 +1,18 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SyndicateTax implements Serializable {
-    private Date date;
+    private LocalDate date;
     private double value;
 
-    public SyndicateTax(Date date, double value) {
+    public SyndicateTax(LocalDate date, double value) {
         this.date = date;
         this.value = value;
+    }
+
+    public double getValue() {
+        return value;
     }
 }

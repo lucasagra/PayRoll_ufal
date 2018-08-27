@@ -28,4 +28,12 @@ public class WorkedTime implements Serializable {
             regular += hours;
         }
     }
+
+    public int getRegular() {
+        return regular;
+    }
+
+    public int getExtra() {
+        return extra;
+    }
 }

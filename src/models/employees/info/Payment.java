@@ -17,6 +17,14 @@ public class Payment implements Serializable {
         return type;
     }
 
+    public Payday getPayday() {
+        return payday;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
     public void setType(String type) {
         this.type = type;
     }

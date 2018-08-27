@@ -1,5 +1,6 @@
 package data;
 
+import models.PayCheck;
 import models.Sale;
 import models.employees.Employee;
 import models.payday.Payday;
@@ -14,6 +15,7 @@ public class Data implements Serializable {
     private List<ShiftCard> cards = new ArrayList<>();
     private List<Payday> paydays = new ArrayList<>();
     private List<Sale> sales = new ArrayList<>();
+    private List<PayCheck> payChecks = new ArrayList<>();
 
     public void addEmployee(Employee employee){
         if(employee != null) {
@@ -54,6 +56,12 @@ public class Data implements Serializable {
         if(sale != null){
             sales.add(sale);
             System.out.println("Sale successfully registered.\n");
+        }
+    }
+
+    public void addPayCheck(PayCheck payCheck){
+        if(payCheck != null){
+            payChecks.add(payCheck);
         }
     }
 }

@@ -4,6 +4,7 @@ import control.utils.Format;
 import control.utils.GetInfo;
 import control.utils.Search;
 import data.Data;
+import models.PayCheck;
 import models.Sale;
 import models.SyndicateTax;
 import models.employees.Commissioned;
@@ -12,9 +13,8 @@ import models.ShiftCard;
 import models.employees.info.WorkedTime;
 import views.Menu;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
-import java.util.List;
 
 public class Control {
 
@@ -35,7 +35,7 @@ public class Control {
                     case 2: inputShiftCard(data); break;
                     case 3: inputSale(data); break;
                     case 4: inputSyndicateTax(data); break;
-                    case 5: break; // run daily payroll
+                    case 5: runDailyPayroll(data); break;
                 }
             } catch (InputMismatchException e){
                 format.invalidInput();
@@ -70,7 +70,7 @@ public class Control {
         if(id == 0) return;
         Employee employee = search.id(data.getEmployees(), id);
 
-        Date date = new Date();
+        LocalDate date = LocalDate.now();
         int worked_hours = getinfo.workedHours();
         WorkedTime workedtime = new WorkedTime(worked_hours);
         ShiftCard shiftcard = new ShiftCard(id, workedtime, date);
@@ -84,7 +84,7 @@ public class Control {
         if(id == 0) return;
         Employee employee = search.id(data.getEmployees(), id);
 
-        Sale sale = new Sale(new Date(), getinfo.salePrice());
+        Sale sale = new Sale(LocalDate.now(), getinfo.salePrice());
         data.addSale(sale);
         if(employee instanceof Commissioned){
             ((Commissioned) employee).addSale(sale);
@@ -96,7 +96,23 @@ public class Control {
         if(syndicate_id == 0) return;
         Employee employee = search.syndId(data.getEmployees(), syndicate_id);
 
-        SyndicateTax syndicate_tax = new SyndicateTax(new Date(), getinfo.taxPrice());
+        SyndicateTax syndicate_tax = new SyndicateTax(LocalDate.now(), getinfo.taxPrice());
         employee.getSyndicate().addSyndicate_taxes(syndicate_tax);
+    }
+
+    private void runDailyPayroll(Data data){
+        PaymentControl paymentControl = new PaymentControl();
+        LocalDate today = LocalDate.now();
+
+        for(Employee employee: data.getEmployees()){
+            if(paymentControl.paydayCheck(employee, today)){
+                try{
+                    PayCheck payCheck = paymentControl.newPayCheck(employee);
+                    data.addPayCheck(payCheck);
+                } catch (NullPointerException e){
+                    format.objNotFound();
+                }
+            }
+        }
     }
 }

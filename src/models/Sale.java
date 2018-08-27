@@ -1,14 +1,18 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Sale implements Serializable {
-    private Date date;
+    private LocalDate date;
     private double price;
 
-    public Sale (Date date, double price){
+    public Sale (LocalDate date, double price){
         this.date = date;
         this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }

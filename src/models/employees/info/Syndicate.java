@@ -5,13 +5,14 @@ import models.SyndicateTax;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Syndicate implements Serializable {
 
     private boolean joined;
     private int syndicate_id;
     private double tax;
-    private List<SyndicateTax> syndicate_taxes = new ArrayList<>();
+    private Stack<SyndicateTax> syndicate_taxes = new Stack<>();
 
     public Syndicate(boolean joined, int id, double tax){
         this.joined = joined;
@@ -35,12 +36,12 @@ public class Syndicate implements Serializable {
         this.tax = tax;
     }
 
-    public List<SyndicateTax> getSyndicate_taxes() {
+    public Stack<SyndicateTax> getSyndicate_taxes() {
         return syndicate_taxes;
     }
 
     public void addSyndicate_taxes(SyndicateTax syndicate_tax) {
-        this.syndicate_taxes.add(syndicate_tax);
+        this.syndicate_taxes.push(syndicate_tax);
         System.out.println("Tax registered to employee.");
     }
 

@@ -14,6 +14,7 @@ import views.Menu;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Stack;
 
 public class EmployeeControl {
 
@@ -27,16 +28,19 @@ public class EmployeeControl {
         int type = getinfo.employeeType();
         String payment_type = getinfo.paymentType();
         double salary = 0;
+        double income = 0;
         int commission = 0;
 
-        if(type >= 2){
+        if(type == 1) {
+            income = getinfo.hourlyIncome();
+        } else if(type >= 2){
             salary = getinfo.salary();
             if(type == 3) commission = getinfo.commission();
         }
 
         switch (type){
             case 0: format.operationAborted(); break;
-            case 1: return new Hourly(id, name, address, syndicate, payment_type, new WorkedTime());
+            case 1: return new Hourly(id, name, address, syndicate, income, payment_type, new WorkedTime());
             case 2: return new Salaried(id, name, address, syndicate, salary, payment_type, new WorkedTime());
             case 3: return new Commissioned(id, name, address, syndicate, salary, commission, payment_type, new WorkedTime());
         }
@@ -85,7 +89,7 @@ public class EmployeeControl {
             Syndicate syndicate = employee.getSyndicate();
             String payment_type = "";
             Payment payment_schedule = new Payment(new Payday(), 0, "personally");
-            List<Sale> sales = new ArrayList<>();
+            Stack<Sale> sales = new Stack<>();
             WorkedTime worked_hours = employee.getWorked_hours();
             int commission_percent = 0;
             int type = 0;
@@ -143,7 +147,8 @@ public class EmployeeControl {
                     }
                 } else if(type == 2){
                     if(new_type == 1) {
-                        return new Hourly(id, name, address, syndicate, payment_type, worked_hours);
+                        double income = getinfo.hourlyIncome();
+                        return new Hourly(id, name, address, syndicate, income, payment_type, worked_hours);
                     }
                     else if(new_type == 3) {
                         double salary = getinfo.salary();
@@ -152,7 +157,8 @@ public class EmployeeControl {
                     }
                 } else if(type == 3){
                     if(new_type == 1) {
-                        return new Hourly(id, name, address, syndicate, payment_type, worked_hours);
+                        double income = getinfo.hourlyIncome();
+                        return new Hourly(id, name, address, syndicate, income, payment_type, worked_hours);
                     }
                     else if(new_type == 2) {
                         double salary = getinfo.salary();

@@ -82,6 +82,19 @@ public class GetInfo {
         }
     }
 
+
+    public double hourlyIncome(){
+        while(true) {
+            try{
+                System.out.print("Employee income per hour: ");
+                double income = format.stringToDouble(input.nextLine());
+                return income;
+            } catch (InputMismatchException e){
+                format.invalidInput();
+            }
+        }
+    }
+
     public int commission(){
         while(true) {
             try{
@@ -129,7 +142,11 @@ public class GetInfo {
                     format.operationAborted();
                     return id;
                 }
-                else if(search.id(data.getEmployees(), id) != null) break;
+                else if(search.id(data.getEmployees(), id) == null) format.objNotFound();
+                else {
+                    System.out.println("Employee found.");
+                    break;
+                }
             } catch (InputMismatchException e) {
                 format.invalidInput();
             }
@@ -141,6 +158,7 @@ public class GetInfo {
         int hours = -1;
         while(hours < 1 || hours > 24){
             try{
+                System.out.print("Hours worked today: ");
                 hours = format.stringToInt(input.nextLine());
                 if(hours < 1 || hours > 24) throw new InputMismatchException();
             } catch (InputMismatchException e){
@@ -188,7 +206,8 @@ public class GetInfo {
                     format.operationAborted();
                     return id;
                 }
-                else if(search.syndId(data.getEmployees(), id) != null) break;
+                else if(search.syndId(data.getEmployees(), id) == null) format.objNotFound();
+                else break;
             } catch (InputMismatchException e) {
                 format.invalidInput();
             }
