@@ -1,18 +1,16 @@
-package models.shift;
-
-import models.employees.Employee;
-import models.shift.info.WorkedTime;
+package models;
+import models.employees.info.WorkedTime;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class ShiftCard implements Serializable {
-    private Employee employee;
+    private int employee_id;
     private WorkedTime worked_time;
     private Date date;
 
-    public ShiftCard(Employee employee, WorkedTime worked_time, Date date){
-        this.employee = employee;
+    public ShiftCard(int employee_id, WorkedTime worked_time, Date date){
+        this.employee_id = employee_id;
         this.worked_time = worked_time;
         this.date = date;
     }

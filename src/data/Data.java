@@ -1,8 +1,9 @@
 package data;
 
+import models.Sale;
 import models.employees.Employee;
 import models.payday.Payday;
-import models.shift.ShiftCard;
+import models.ShiftCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Data implements Serializable {
     private List<Employee> employees = new ArrayList<>();
     private List<ShiftCard> cards = new ArrayList<>();
     private List<Payday> paydays = new ArrayList<>();
+    private List<Sale> sales = new ArrayList<>();
 
     public void addEmployee(Employee employee){
         if(employee != null) {
@@ -20,9 +22,9 @@ public class Data implements Serializable {
         }
     }
 
-    public void editEmployee(Employee toedit, Employee edited){
+    public void editEmployee(Employee to_edit, Employee edited){
         if(edited != null) {
-            employees.remove(toedit);
+            employees.remove(to_edit);
             employees.add(edited);
             System.out.println("Employee Successfully edited.\n");
         }
@@ -39,5 +41,19 @@ public class Data implements Serializable {
 
     public List<Employee> getEmployees(){
         return employees;
+    }
+
+    public void addShiftCard(ShiftCard card){
+        if(card != null) {
+            cards.add(card);
+            System.out.println("ShiftCard successfully registered.\n");
+        }
+    }
+
+    public void addSale(Sale sale){
+        if(sale != null){
+            sales.add(sale);
+            System.out.println("Sale successfully registered.\n");
+        }
     }
 }

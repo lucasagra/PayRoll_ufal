@@ -41,25 +41,28 @@ public class Menu {
                     "[2] - Name\n" +
                     "[3] - Address\n" +
                     "[4] - Syndicate\n" +
-                    "[5] - Commission Percent\n" +
+                    "[5] - Payment method\n" +
+                    "[6] - Commission Percent\n" +
                     "[0] - Cancel");
-            return format.inputSelect(0, 5);
+            return format.inputSelect(0, 6);
         } else if (employee instanceof Salaried) {
             System.out.println("What do you want to edit: \n\n" +
                     "[1] - Type\n" +
                     "[2] - Name\n" +
                     "[3] - Address\n" +
                     "[4] - Syndicate\n" +
+                    "[5] - Payment method\n" +
                     "[0] - Cancel\n");
-            return format.inputSelect(0, 4);
+            return format.inputSelect(0, 5);
         } else if(employee instanceof Hourly){
             System.out.println("What do you want to edit: \n\n" +
                     "[1] - Type\n" +
                     "[2] - Name\n" +
                     "[3] - Address\n" +
                     "[4] - Syndicate\n" +
+                    "[5] - Payment method\n" +
                     "[0] - Cancel\n");
-            return format.inputSelect(0, 4);
+            return format.inputSelect(0, 5);
         } else return 0;
     }
 }

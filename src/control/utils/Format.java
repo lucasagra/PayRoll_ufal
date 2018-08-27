@@ -19,6 +19,11 @@ public class Format {
         input.nextLine();
     }
 
+    public void objNotFound(){
+        System.out.print("Object not found.");
+        input.nextLine();
+    }
+
     public void operationAborted(){
         System.out.print("Operation aborted.");
         input.nextLine();

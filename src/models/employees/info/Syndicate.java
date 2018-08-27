@@ -9,11 +9,42 @@ import java.util.List;
 public class Syndicate implements Serializable {
 
     private boolean joined;
+    private int syndicate_id;
     private double tax;
-    private List<SyndicateTax> syndical_taxes = new ArrayList<>();
+    private List<SyndicateTax> syndicate_taxes = new ArrayList<>();
 
-    public Syndicate(boolean joined, double tax){
+    public Syndicate(boolean joined, int id, double tax){
         this.joined = joined;
+        this.syndicate_id = id;
         this.tax = tax;
+    }
+
+    public boolean isJoined() {
+        return joined;
+    }
+
+    public void setJoined(boolean joined) {
+        this.joined = joined;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public List<SyndicateTax> getSyndicate_taxes() {
+        return syndicate_taxes;
+    }
+
+    public void addSyndicate_taxes(SyndicateTax syndicate_tax) {
+        this.syndicate_taxes.add(syndicate_tax);
+        System.out.println("Tax registered to employee.");
+    }
+
+    public int getSyndicate_id() {
+        return syndicate_id;
     }
 }

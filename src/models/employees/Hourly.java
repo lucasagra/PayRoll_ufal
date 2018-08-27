@@ -2,20 +2,21 @@ package models.employees;
 
 import models.employees.info.Address;
 import models.employees.info.Syndicate;
-import models.employees.info.payment.Payment;
+import models.employees.info.Payment;
 import models.payday.WeeklyPayday;
+import models.employees.info.WorkedTime;
 
 public class Hourly extends Employee {
 
     private Payment payment_schedule;
 
-    public Hourly(int id, String name, Address address, Syndicate syndicate){
-        super(id, name, address, syndicate);
-        this.payment_schedule = new Payment(new WeeklyPayday(1,5), 0);
+    public Hourly(int id, String name, Address address, Syndicate syndicate, String type, WorkedTime worked_hours){
+        super(id, name, address, syndicate, worked_hours);
+        this.payment_schedule = new Payment(new WeeklyPayday(1,5), 0, type);
     }
 
-    public Hourly(int id, String name, Address address, Syndicate syndicate, Payment payment_schedule){
-        super(id, name, address, syndicate);
+    public Hourly(int id, String name, Address address, Syndicate syndicate, Payment payment_schedule, WorkedTime worked_hours){
+        super(id, name, address, syndicate, worked_hours);
         this.payment_schedule = payment_schedule;
     }
 

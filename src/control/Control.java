@@ -1,17 +1,29 @@
 package control;
 
 import control.utils.Format;
+import control.utils.GetInfo;
+import control.utils.Search;
 import data.Data;
+import models.Sale;
+import models.SyndicateTax;
+import models.employees.Commissioned;
 import models.employees.Employee;
+import models.ShiftCard;
+import models.employees.info.WorkedTime;
 import views.Menu;
 
+import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
 
 public class Control {
 
+    private GetInfo getinfo = new GetInfo();
+    private Search search = new Search();
+    private Format format = new Format();
+    private Menu menu = new Menu();
+
     public void main(Data data){
-        Menu menu = new Menu();
-        Format format = new Format();
 
         int option = -1;
         while(option != 0) {
@@ -19,10 +31,10 @@ public class Control {
                 option = menu.main();
                 switch (option){
                     case 0: break;
-                    case 1: employee(data); break; // manage employee
-                    case 2: break; // input shiftcard
-                    case 3: break; // input sale
-                    case 4: break; // input syndicate service tax
+                    case 1: employee(data); break;
+                    case 2: inputShiftCard(data); break;
+                    case 3: inputSale(data); break;
+                    case 4: inputSyndicateTax(data); break;
                     case 5: break; // run daily payroll
                 }
             } catch (InputMismatchException e){
@@ -32,8 +44,6 @@ public class Control {
     }
 
     private void employee(Data data){
-        Menu menu = new Menu();
-        Format format = new Format();
         EmployeeControl emp_control = new EmployeeControl();
 
         int option = -1;
@@ -42,7 +52,7 @@ public class Control {
                 option = menu.employee();
                 switch (option){
                     case 0: break;
-                    case 1: data.addEmployee(emp_control.newEmployee(data.getEmployeesQuantity())); break;
+                    case 1: data.addEmployee(emp_control.newEmployee(data.getEmployeesQuantity()+1)); break;
                     case 2: data.removeEmployee(emp_control.removeEmployee(data)); break;
                     case 3:
                         Employee to_edit = emp_control.selectEmployeeToEdit(data);
@@ -53,5 +63,40 @@ public class Control {
                 format.invalidInput();
             }
         }
+    }
+
+    private void inputShiftCard(Data data) {
+        int id = getinfo.id(data);
+        if(id == 0) return;
+        Employee employee = search.id(data.getEmployees(), id);
+
+        Date date = new Date();
+        int worked_hours = getinfo.workedHours();
+        WorkedTime workedtime = new WorkedTime(worked_hours);
+        ShiftCard shiftcard = new ShiftCard(id, workedtime, date);
+
+        employee.getWorked_hours().addDailyHours(worked_hours);
+        data.addShiftCard(shiftcard);
+    }
+
+    private void inputSale(Data data) {
+        int id = getinfo.id(data);
+        if(id == 0) return;
+        Employee employee = search.id(data.getEmployees(), id);
+
+        Sale sale = new Sale(new Date(), getinfo.salePrice());
+        data.addSale(sale);
+        if(employee instanceof Commissioned){
+            ((Commissioned) employee).addSale(sale);
+        }
+    }
+
+    private void inputSyndicateTax(Data data){
+        int syndicate_id = getinfo.syndId(data);
+        if(syndicate_id == 0) return;
+        Employee employee = search.syndId(data.getEmployees(), syndicate_id);
+
+        SyndicateTax syndicate_tax = new SyndicateTax(new Date(), getinfo.taxPrice());
+        employee.getSyndicate().addSyndicate_taxes(syndicate_tax);
     }
 }
