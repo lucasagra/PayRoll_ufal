@@ -1,102 +1,60 @@
 package models;
-import models.employees.info.WorkedTime;
+import models.employees.Commissioned;
+import models.employees.Employee;
+import models.employees.Hourly;
+import models.employees.Salaried;
+import models.payday.MonthlyPayday;
+import models.payday.WeeklyPayday;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class PayCheck {
-    private int employee_id;
+public class PayCheck implements Serializable {
+    private Employee employee;
     private LocalDate date;
-    private WorkedTime worked_time;
-    private String payment_type;
-    private double amount;
-    private List<Sale> sales;
-    private int commission;
-    private double synd_tax;
     private List<SyndicateTax> synd_service_taxes;
+    private List<Sale> sales;
+    private double total_sales;
+    private double amount;
 
-    public PayCheck(int employee_id, LocalDate date, WorkedTime worked_time, String payment_type, double amount,
-                    List<Sale> sales, int commission, double synd_tax, List<SyndicateTax> synd_service_taxes) {
-        this.employee_id = employee_id;
+    public PayCheck(Employee employee, LocalDate date, double amount,
+                    List<Sale> sales, List<SyndicateTax> synd_service_taxes, double total_sales) {
+        this.employee = employee;
         this.date = date;
-        this.worked_time = worked_time;
-        this.payment_type = payment_type;
-        this.amount = amount;
         this.sales = sales;
-        this.commission = commission;
-        this.synd_tax = synd_tax;
         this.synd_service_taxes = synd_service_taxes;
+        this.total_sales = total_sales;
+        this.amount = amount;
     }
 
-    /*
-    public PayCheck(Employee employee){
-        this.employee_id = employee.getId();
-        this.date = LocalDate.now();
-        this.worked_time = employee.getWorked_hours();
-        employee.setWorked_hours(new WorkedTime());
+    @Override
+    public String toString(){
+        String taxesString = "";
+        String salesString = "";
+        String referenceTime = "";
 
-        this.commission = 0;
-        this.synd_tax = 0;
-        this.amount = 0;
-
-        Payment payment = null;
-        if(employee instanceof Commissioned) payment = ((Commissioned) employee).getPayment_schedule();
-        else if(employee instanceof Salaried) payment = ((Salaried) employee).getPayment_schedule();
-        else if(employee instanceof Hourly) payment = ((Hourly) employee).getPayment_schedule();
-
-        Payday payday = null;
-        if(payment != null) payday = payment.getPayday();
-        if(payday == null) throw new NullPointerException();
-
-        this.payment_type = payment.getType();
-
-        int frequency = 4;
-        if(payday instanceof WeeklyPayday){
-            frequency = ((WeeklyPayday) payday).getFrequency();
-        }
-
-        double frequency_payment = frequency/4;
-
-        if(employee instanceof Commissioned)
-        {
-            this.commission = ((Commissioned) employee).getCommission_percent();
-
-            while(!((Commissioned) employee).getSales().isEmpty()){
-                Sale sale = ((Commissioned) employee).getSales().pop();
-                this.amount += sale.getPrice() * (this.commission/100);
-                sales.add(sale);
+        if(synd_service_taxes.size() > 0) taxesString = "Syndicate service taxes:" +
+                synd_service_taxes.stream().map(SyndicateTax::toString).collect(Collectors.joining(",")) + "\n";
+        if(employee instanceof Commissioned) {
+            referenceTime = ((WeeklyPayday)((Commissioned) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
+            if (sales.size() > 0) {
+                double commission = (double)((Commissioned) employee).getCommission_percent();
+                salesString = "Sales made:" + sales.stream().map(Sale::toString).collect(Collectors.joining(",")) + "\n" +
+                        "Total Sales: $" + total_sales + " x " + commission + "% = $" + total_sales * commission / 100 + "\n";
             }
-
-            double monthly_salary = ((Commissioned) employee).getPayment_schedule().getSalary();
-            this.amount += monthly_salary * frequency_payment;
+        } else if(employee instanceof Hourly){
+            referenceTime = ((WeeklyPayday)((Hourly) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
+        } else if(employee instanceof Salaried) {
+            referenceTime = " 1 Month\n";
         }
 
-        else if(employee instanceof Salaried)
-        {
-            double salary = ((Salaried) employee).getPayment_schedule().getSalary();
-            this.amount += salary;
-        }
-
-        else if(employee instanceof Hourly)
-        {
-            double salary_per_hour = ((Hourly) employee).getPayment_schedule().getSalary();
-
-            int regular_hours = this.worked_time.getRegular();
-            int extra_hours = this.worked_time.getExtra();
-            this.amount += (salary_per_hour * regular_hours) + 1.5*(salary_per_hour * extra_hours);
-        }
-
-        if(employee.getSyndicate().isJoined()){
-            Syndicate syndicate = employee.getSyndicate();
-            this.synd_tax = syndicate.getTax();
-            this.amount -= this.synd_tax;
-
-            while(!syndicate.getSyndicate_taxes().isEmpty()){
-                SyndicateTax tax = syndicate.getSyndicate_taxes().pop();
-                this.amount -= tax.getValue();
-                this.synd_service_taxes.add(tax);
-            }
-        }
+        return  "Date: " + date + "\n" +
+                "Time of reference: " + referenceTime +
+                employee.toString() +
+                taxesString +
+                salesString +
+                "Total received: $" + this.amount + "\n";
     }
-    */
 }

@@ -23,4 +23,12 @@ public class Salaried extends Employee {
     public Payment getPayment_schedule() {
         return payment_schedule;
     }
+
+    @Override
+    public String toString(){
+        if (this instanceof Commissioned) return super.toString();
+        else return super.toString() +
+                "Employee type: Salaried \n" +
+                payment_schedule.toString();
+    }
 }

@@ -46,4 +46,25 @@ public class Employee implements Serializable {
     public void setWorked_hours(WorkedTime worked_hours) {
         this.worked_hours = worked_hours;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setSyndicate(Syndicate syndicate) {
+        this.syndicate = syndicate;
+    }
+
+    @Override
+    public String toString(){
+        return "ID: " + id + "\n" +
+                "Name: " + name + "\n" +
+                address.toString() +
+                syndicate.toString() +
+                worked_hours.toString();
+    }
 }

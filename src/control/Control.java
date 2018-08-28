@@ -103,11 +103,14 @@ public class Control {
     private void runDailyPayroll(Data data){
         PaymentControl paymentControl = new PaymentControl();
         LocalDate today = LocalDate.now();
+        today = LocalDate.of(2018, 9, 7);
 
         for(Employee employee: data.getEmployees()){
             if(paymentControl.paydayCheck(employee, today)){
                 try{
                     PayCheck payCheck = paymentControl.newPayCheck(employee);
+                    //money_transfer(payCheck.getAmount(), employee)
+                    System.out.println(payCheck.toString());
                     data.addPayCheck(payCheck);
                 } catch (NullPointerException e){
                     format.objNotFound();

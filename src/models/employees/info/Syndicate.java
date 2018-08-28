@@ -48,4 +48,12 @@ public class Syndicate implements Serializable {
     public int getSyndicate_id() {
         return syndicate_id;
     }
+
+    @Override
+    public String toString(){
+        if (joined) return "Syndicate:\n" +
+                "   ID: " + syndicate_id + "\n" +
+                "   Tax: " + tax + "/month\n";
+        else return "Syndicate: none\n";
+    }
 }

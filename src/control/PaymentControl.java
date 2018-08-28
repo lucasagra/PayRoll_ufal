@@ -1,5 +1,6 @@
 package control;
 
+import control.utils.Clone;
 import models.PayCheck;
 import models.Sale;
 import models.SyndicateTax;
@@ -8,7 +9,6 @@ import models.employees.Employee;
 import models.employees.Hourly;
 import models.employees.Salaried;
 import models.employees.info.Payment;
-import models.employees.info.Syndicate;
 import models.employees.info.WorkedTime;
 import models.payday.MonthlyPayday;
 import models.payday.Payday;
@@ -21,87 +21,89 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class PaymentControl {
+class PaymentControl {
 
-    public PayCheck newPayCheck(Employee employee){
-        int employee_id = employee.getId();
-        LocalDate date = LocalDate.now();
-        WorkedTime worked_time = employee.getWorked_hours();
-        double amount = 0;
-        List<Sale> sales = new ArrayList<>();
-        int commission = 0;
-        double synd_tax = employee.getSyndicate().getTax();
-        List<SyndicateTax> synd_service_taxes = new ArrayList<>();
-
+    private Payment getPayment(Employee employee){
         Payment payment = null;
         if(employee instanceof Commissioned) payment = ((Commissioned) employee).getPayment_schedule();
         else if(employee instanceof Salaried) payment = ((Salaried) employee).getPayment_schedule();
         else if(employee instanceof Hourly) payment = ((Hourly) employee).getPayment_schedule();
 
-        Payday payday = null;
-        if(payment != null) payday = payment.getPayday();
-        if(payday == null) throw new NullPointerException();
+        if (payment == null) throw new NullPointerException();
+        return payment;
+    }
 
-        String payment_type = payment.getType();
+    PayCheck newPayCheck(Employee employee){
+        Employee employeeCopy = (Employee) Clone.deepCopy(employee);
+        if(employeeCopy == null) throw new NullPointerException();
+
+        LocalDate date = LocalDate.now();
+
+        double amount = 0;
+        double commission;
+        double total_sales = 0;
+        List<Sale> sales = new ArrayList<>();
+        List<SyndicateTax> synd_service_taxes = new ArrayList<>();
+        double synd_tax;
+
+        Payment payment = getPayment(employeeCopy);
+
+        Payday payday = payment.getPayday();
+        if(payday == null) throw new NullPointerException();
 
         int frequency = 4;
         if(payday instanceof WeeklyPayday){
             frequency = ((WeeklyPayday) payday).getFrequency();
         }
 
-        double frequency_payment = frequency/4;
+        double frequency_payment = (double)frequency/4;
 
         if(employee instanceof Commissioned)
         {
-            commission = ((Commissioned) employee).getCommission_percent();
+            commission = (double)((Commissioned) employeeCopy).getCommission_percent();
 
             while(!((Commissioned) employee).getSales().isEmpty()){
                 Sale sale = ((Commissioned) employee).getSales().pop();
-                amount += sale.getPrice() * (commission/100);
+                total_sales += sale.getPrice();
                 sales.add(sale);
             }
 
-            double monthly_salary = ((Commissioned) employee).getPayment_schedule().getSalary();
-            amount += monthly_salary * frequency_payment;
-        }
+            amount += (total_sales * (commission/100));
 
+            double monthly_salary = ((Commissioned) employeeCopy).getPayment_schedule().getSalary();
+            amount += (monthly_salary * frequency_payment);
+        }
         else if(employee instanceof Salaried)
         {
-            double salary = ((Salaried) employee).getPayment_schedule().getSalary();
+            double salary = ((Salaried) employeeCopy).getPayment_schedule().getSalary();
             amount += salary;
         }
-
         else if(employee instanceof Hourly)
         {
-            double salary_per_hour = ((Hourly) employee).getPayment_schedule().getSalary();
+            double salary_per_hour = ((Hourly) employeeCopy).getPayment_schedule().getSalary();
 
-            int regular_hours = worked_time.getRegular();
-            int extra_hours = worked_time.getExtra();
-            amount += (salary_per_hour * regular_hours) + 1.5*(salary_per_hour * extra_hours);
+            int regular_hours = employeeCopy.getWorked_hours().getRegular();
+            int extra_hours = employeeCopy.getWorked_hours().getExtra();
+            amount += ((salary_per_hour * regular_hours) + 1.5*(salary_per_hour * extra_hours));
         }
 
-        Syndicate syndicate = employee.getSyndicate();
-        if(syndicate.isJoined()){
-            synd_tax = syndicate.getTax();
+        if(employeeCopy.getSyndicate().isJoined()){
+            synd_tax = employeeCopy.getSyndicate().getTax() * frequency_payment;
             amount -= synd_tax;
-
-            while(!syndicate.getSyndicate_taxes().isEmpty()){
-                SyndicateTax tax = syndicate.getSyndicate_taxes().pop();
+            while(!employee.getSyndicate().getSyndicate_taxes().isEmpty()){
+                SyndicateTax tax = employee.getSyndicate().getSyndicate_taxes().pop();
                 amount -= tax.getValue();
                 synd_service_taxes.add(tax);
             }
         }
 
         employee.setWorked_hours(new WorkedTime());
-        return new PayCheck(employee_id, date, worked_time, payment_type, amount, sales, commission, synd_tax, synd_service_taxes);
+        return new PayCheck(employeeCopy, date, amount, sales, synd_service_taxes, total_sales);
     }
 
-    public boolean paydayCheck(Employee employee, LocalDate date){
-        Payment payment = null;
+    boolean paydayCheck(Employee employee, LocalDate date){
 
-        if(employee instanceof Commissioned) payment = ((Commissioned) employee).getPayment_schedule();
-        else if(employee instanceof Salaried) payment = ((Salaried) employee).getPayment_schedule();
-        else if(employee instanceof Hourly) payment = ((Hourly) employee).getPayment_schedule();
+        Payment payment = getPayment(employee);
 
         if(payment == null) return false;
 

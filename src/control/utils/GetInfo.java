@@ -82,7 +82,6 @@ public class GetInfo {
         }
     }
 
-
     public double hourlyIncome(){
         while(true) {
             try{
@@ -170,7 +169,7 @@ public class GetInfo {
     }
 
     public double salePrice() {
-        System.out.println("Sale price: ");
+        System.out.print("Sale price: ");
         double price = -1;
         while(price < 0){
             try {
@@ -183,7 +182,7 @@ public class GetInfo {
     }
 
     public double taxPrice() {
-        System.out.println("Tax price: ");
+        System.out.print("Tax price: ");
         double price = -1;
         while(price < 0){
             try {
