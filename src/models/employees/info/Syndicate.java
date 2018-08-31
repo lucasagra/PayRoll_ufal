@@ -24,16 +24,8 @@ public class Syndicate implements Serializable {
         return joined;
     }
 
-    public void setJoined(boolean joined) {
-        this.joined = joined;
-    }
-
     public double getTax() {
         return tax;
-    }
-
-    public void setTax(double tax) {
-        this.tax = tax;
     }
 
     public Stack<SyndicateTax> getSyndicate_taxes() {
@@ -53,7 +45,7 @@ public class Syndicate implements Serializable {
     public String toString(){
         if (joined) return "Syndicate:\n" +
                 "   ID: " + syndicate_id + "\n" +
-                "   Tax: " + tax + "/month\n";
+                "   Tax: $" + tax + "/month\n";
         else return "Syndicate: none\n";
     }
 }

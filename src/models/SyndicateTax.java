@@ -18,6 +18,6 @@ public class SyndicateTax implements Serializable {
 
     @Override
     public String toString(){
-        return " $" + value;
+        return "\n     $" + value + " (" + date.toString() + ")";
     }
 }

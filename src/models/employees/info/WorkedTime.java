@@ -10,11 +10,6 @@ public class WorkedTime implements Serializable {
         this.regular = 0;
     }
 
-    public WorkedTime(WorkedTime workedTime){
-        this.regular = workedTime.getRegular();
-        this.extra = workedTime.getExtra();
-    }
-
     public WorkedTime(int worked_hours){
         this.extra = 0;
         if(worked_hours > 8) {

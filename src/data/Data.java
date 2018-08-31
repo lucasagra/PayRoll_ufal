@@ -59,6 +59,17 @@ public class Data implements Serializable {
         }
     }
 
+    public void addPayday(Payday payday){
+        if(payday != null){
+            paydays.add(payday);
+            System.out.println("Payday successfully registered.\n");
+        }
+    }
+
+    public List<Payday> getPaydays() {
+        return paydays;
+    }
+
     public void addPayCheck(PayCheck payCheck){
         if(payCheck != null){
             payChecks.add(payCheck);

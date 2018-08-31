@@ -6,7 +6,6 @@ import models.employees.Employee;
 import models.employees.Hourly;
 import models.employees.Salaried;
 
-import java.util.Calendar;
 
 public class Menu {
 
@@ -19,9 +18,10 @@ public class Menu {
                 "[3] - Input Sale\n" +
                 "[4] - Input Syndicate Service Tax\n" +
                 "[5] - Run Daily Payroll\n" +
+                "[6] - New payday preset to calendar\n" +
                 "[0] - Exit\n");
 
-        return format.inputSelect(0, 5);
+        return format.inputSelect(0, 6);
     }
 
     public int employee(){
@@ -29,9 +29,10 @@ public class Menu {
                 "[1] - Add employee\n" +
                 "[2] - Remove employee\n" +
                 "[3] - Edit employee\n" +
+                "[4] - Show employees\n" +
                 "[0] - Back\n");
 
-        return format.inputSelect(0, 3);
+        return format.inputSelect(0, 4);
     }
 
     public int editEmployee(Employee employee){

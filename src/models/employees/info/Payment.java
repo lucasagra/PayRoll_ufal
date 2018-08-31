@@ -1,7 +1,6 @@
 package models.employees.info;
-import models.payday.MonthlyPayday;
 import models.payday.Payday;
-import models.payday.WeeklyPayday;
+import models.payday.Weekly;
 
 import java.io.Serializable;
 
@@ -32,12 +31,16 @@ public class Payment implements Serializable {
         this.type = type;
     }
 
+    public void setPayday(Payday payday) {
+        this.payday = payday;
+    }
+
     @Override
     public String toString(){
         double frequency;
         String aux = "";
-        if (payday instanceof WeeklyPayday){
-            frequency = ((WeeklyPayday) payday).getFrequency();
+        if (payday instanceof Weekly){
+            frequency = ((Weekly) payday).getFrequency();
             aux = " x " + frequency/4 + " (" + frequency + " week(s)) = $" + salary*frequency/4;
         }
 

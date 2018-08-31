@@ -18,5 +18,6 @@ public class Sale implements Serializable {
 
     @Override
     public String toString(){
-        return " $" + price;    }
+        return "\n     $" + price + " (" + date.toString() + ")";
+    }
 }

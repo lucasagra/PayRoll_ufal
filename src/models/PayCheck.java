@@ -3,8 +3,10 @@ import models.employees.Commissioned;
 import models.employees.Employee;
 import models.employees.Hourly;
 import models.employees.Salaried;
-import models.payday.MonthlyPayday;
-import models.payday.WeeklyPayday;
+import models.employees.info.Payment;
+import models.payday.Monthly;
+import models.payday.Payday;
+import models.payday.Weekly;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -29,32 +31,48 @@ public class PayCheck implements Serializable {
         this.amount = amount;
     }
 
-    @Override
-    public String toString(){
-        String taxesString = "";
-        String salesString = "";
-        String referenceTime = "";
-
-        if(synd_service_taxes.size() > 0) taxesString = "Syndicate service taxes:" +
+    private String taxes(){
+        if(synd_service_taxes.size() > 0) return "Syndicate service taxes:" +
                 synd_service_taxes.stream().map(SyndicateTax::toString).collect(Collectors.joining(",")) + "\n";
+
+        return "";
+    }
+
+    private String sales(){
         if(employee instanceof Commissioned) {
-            referenceTime = ((WeeklyPayday)((Commissioned) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
             if (sales.size() > 0) {
-                double commission = (double)((Commissioned) employee).getCommission_percent();
-                salesString = "Sales made:" + sales.stream().map(Sale::toString).collect(Collectors.joining(",")) + "\n" +
+                double commission = (double) ((Commissioned) employee).getCommission_percent();
+                return "Sales made:" + sales.stream().map(Sale::toString).collect(Collectors.joining(",")) + "\n" +
                         "Total Sales: $" + total_sales + " x " + commission + "% = $" + total_sales * commission / 100 + "\n";
             }
+        }
+        return "";
+    }
+
+    private String referenceTime(){
+        String referenceTime = "";
+        if(employee instanceof Commissioned) {
+            Payday payday = ((Commissioned) employee).getPayment_schedule().getPayday();
+            if(payday instanceof Weekly)
+                referenceTime = ((Weekly)((Commissioned) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
+            else if(payday instanceof Monthly)
+                referenceTime = "1 Month\n";
         } else if(employee instanceof Hourly){
-            referenceTime = ((WeeklyPayday)((Hourly) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
+            referenceTime = ((Weekly)((Hourly) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
         } else if(employee instanceof Salaried) {
-            referenceTime = " 1 Month\n";
+            referenceTime = "1 Month\n";
         }
 
+        return referenceTime;
+    }
+    
+    @Override
+    public String toString(){
         return  "Date: " + date + "\n" +
-                "Time of reference: " + referenceTime +
+                "Time of reference: " + referenceTime() +
                 employee.toString() +
-                taxesString +
-                salesString +
+                taxes() +
+                sales() +
                 "Total received: $" + this.amount + "\n";
     }
 }

@@ -1,11 +1,13 @@
 package models.payday;
 
-public class WeeklyPayday extends Payday {
+import java.time.DayOfWeek;
+
+public class Weekly extends Payday {
 
     private int frequency;
     private int day;
 
-    public WeeklyPayday(int frequency, int day){
+    public Weekly(int frequency, int day){
         this.frequency = frequency;
         this.day = day;
     }
@@ -16,5 +18,10 @@ public class WeeklyPayday extends Payday {
 
     public int getDay() {
         return day;
+    }
+
+    @Override
+    public String toString(){
+        return "Weekly " + frequency + " " + DayOfWeek.of(day);
     }
 }

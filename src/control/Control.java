@@ -36,6 +36,7 @@ public class Control {
                     case 3: inputSale(data); break;
                     case 4: inputSyndicateTax(data); break;
                     case 5: runDailyPayroll(data); break;
+                    case 6: newPayday(data); break;
                 }
             } catch (InputMismatchException e){
                 format.invalidInput();
@@ -52,13 +53,11 @@ public class Control {
                 option = menu.employee();
                 switch (option){
                     case 0: break;
-                    case 1: data.addEmployee(emp_control.newEmployee(data.getEmployeesQuantity()+1)); break;
-                    case 2: data.removeEmployee(emp_control.removeEmployee(data)); break;
-                    case 3:
-                        Employee to_edit = emp_control.selectEmployeeToEdit(data);
-                        Employee edited = emp_control.editEmployee(to_edit);
-                        data.editEmployee(to_edit, edited);
-                        break;                }
+                    case 1: emp_control.newEmployee(data); break;
+                    case 2: emp_control.removeEmployee(data); break;
+                    case 3: emp_control.editEmployee(data); break;
+                    case 4: emp_control.listEmployees(data.getEmployees());  break;
+                }
             } catch (InputMismatchException e){
                 format.invalidInput();
             }
@@ -103,7 +102,7 @@ public class Control {
     private void runDailyPayroll(Data data){
         PaymentControl paymentControl = new PaymentControl();
         LocalDate today = LocalDate.now();
-        today = LocalDate.of(2018, 9, 7);
+        today = LocalDate.of(2018, 8, 31);
 
         for(Employee employee: data.getEmployees()){
             if(paymentControl.paydayCheck(employee, today)){
@@ -116,6 +115,19 @@ public class Control {
                     format.objNotFound();
                 }
             }
+        }
+    }
+
+    private void newPayday(Data data){
+        GetInfo getInfo = new GetInfo();
+        PaymentControl paymentControl = new PaymentControl();
+
+        int type = getInfo.paydayType();
+
+        switch (type){
+            case 0: return;
+            case 1: paymentControl.newMonthlyPayday(data); break;
+            case 2: paymentControl.newWeeklyPayday(data); break;
         }
     }
 }

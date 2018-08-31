@@ -1,6 +1,9 @@
 package control;
 
 import control.utils.Clone;
+import control.utils.Format;
+import control.utils.GetInfo;
+import data.Data;
 import models.PayCheck;
 import models.Sale;
 import models.SyndicateTax;
@@ -10,9 +13,9 @@ import models.employees.Hourly;
 import models.employees.Salaried;
 import models.employees.info.Payment;
 import models.employees.info.WorkedTime;
-import models.payday.MonthlyPayday;
+import models.payday.Monthly;
 import models.payday.Payday;
-import models.payday.WeeklyPayday;
+import models.payday.Weekly;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalField;
@@ -52,8 +55,8 @@ class PaymentControl {
         if(payday == null) throw new NullPointerException();
 
         int frequency = 4;
-        if(payday instanceof WeeklyPayday){
-            frequency = ((WeeklyPayday) payday).getFrequency();
+        if(payday instanceof Weekly){
+            frequency = ((Weekly) payday).getFrequency();
         }
 
         double frequency_payment = (double)frequency/4;
@@ -109,19 +112,61 @@ class PaymentControl {
 
         Payday payday = payment.getPayday();
 
-        if(payday instanceof WeeklyPayday){
-            if(date.getDayOfWeek().getValue() == ((WeeklyPayday) payday).getDay()){
+        if(payday instanceof Weekly){
+            if(date.getDayOfWeek().getValue() == ((Weekly) payday).getDay()){
                 TemporalField temp = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-                return ((date.get(temp) % ((WeeklyPayday) payday).getFrequency()) == 0);
+                return ((date.get(temp) % ((Weekly) payday).getFrequency()) == 0);
             }
-        } else if (payday instanceof MonthlyPayday){
-            if (date.getDayOfMonth() == ((MonthlyPayday) payday).getDay()) return true;
+        } else if (payday instanceof Monthly){
+            if (date.getDayOfMonth() == ((Monthly) payday).getDay()) return true;
             else if (date.getDayOfMonth() == date.lengthOfMonth()){
-                return (((MonthlyPayday) payday).getDay() == 32);
+                return (((Monthly) payday).getDay() == 32);
             }
             else return false;
         }
 
         return false;
+    }
+
+    void newWeeklyPayday(Data data){
+        GetInfo getInfo = new GetInfo();
+
+        int frequency = getInfo.frequency();
+        if (frequency == 0) return;
+
+        int dayOfWeek = getInfo.dayOfWeek();
+        if(dayOfWeek == 0) return;
+
+        data.addPayday(new Weekly(frequency, dayOfWeek));
+    }
+
+    void newMonthlyPayday(Data data){
+        GetInfo getInfo = new GetInfo();
+
+        String day = getInfo.dayOfMonth();
+
+        if(day == null) return;
+
+        data.addPayday(new Monthly(day));
+    }
+
+    Payday choosePayday(Employee employee, List<Payday> paydays){
+        GetInfo getInfo = new GetInfo();
+
+        if(employee instanceof Commissioned){
+            return getInfo.payday(paydays);
+        }
+        else if(employee instanceof Salaried){
+            List<Payday> monthlyPaydays = new ArrayList<>();
+            for(Payday payday: paydays) if(payday instanceof Monthly) monthlyPaydays.add(payday);
+            return getInfo.payday(monthlyPaydays);
+        }
+        else if(employee instanceof Hourly){
+            List<Payday> weeklyPaydays = new ArrayList<>();
+            for(Payday payday: paydays) if(payday instanceof Weekly) weeklyPaydays.add(payday);
+            return getInfo.payday(weeklyPaydays);
+        }
+
+        return null;
     }
 }

@@ -29,7 +29,7 @@ public class Format {
         input.nextLine();
     }
 
-    public boolean intToBoolean(int i){
+    boolean intToBoolean(int i){
         if (i == 0) return false;
         else if (i == 1) return true;
         else throw new InputMismatchException();
@@ -44,7 +44,7 @@ public class Format {
         }
     }
 
-    public double stringToDouble(String string){
+    double stringToDouble(String string){
         try {
             double i = Double.parseDouble(string.trim());
             if (i < 0) throw new InputMismatchException();
@@ -54,4 +54,8 @@ public class Format {
         }
     }
 
+    int intInterval(int num, int min, int max){
+        if(num < min || num > max) throw new InputMismatchException();
+        else return num;
+    }
 }

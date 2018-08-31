@@ -3,7 +3,7 @@ package models.employees;
 import models.employees.info.Address;
 import models.employees.info.Syndicate;
 import models.employees.info.Payment;
-import models.payday.WeeklyPayday;
+import models.payday.Weekly;
 import models.employees.info.WorkedTime;
 
 public class Hourly extends Employee {
@@ -12,12 +12,7 @@ public class Hourly extends Employee {
 
     public Hourly(int id, String name, Address address, Syndicate syndicate, double income, String type, WorkedTime worked_hours){
         super(id, name, address, syndicate, worked_hours);
-        this.payment_schedule = new Payment(new WeeklyPayday(1,5), income, type);
-    }
-
-    public Hourly(int id, String name, Address address, Syndicate syndicate, Payment payment_schedule, WorkedTime worked_hours){
-        super(id, name, address, syndicate, worked_hours);
-        this.payment_schedule = payment_schedule;
+        this.payment_schedule = new Payment(new Weekly(1,5), income, type);
     }
 
     public Payment getPayment_schedule() {
