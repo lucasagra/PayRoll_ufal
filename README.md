@@ -42,7 +42,7 @@ identificação no sistema de folha de pagamento.
 naquele dia. O sistema receberá a data até a qual o pagamento deve ser feito e calculará o
 pagamento para cada empregado desde a última vez em que este foi pago.
 
-1. Adição de um empregado
+1. - [x] Adição de um empregado
 
 >Um novo empregado é adicionado ao sistema. Os
 seguintes atributos são fornecidos: nome, endereço, tipo
@@ -51,41 +51,41 @@ associados (salário horário, salário mensal, comissão).
 Um número de empregado (único) deve ser escolhido
 automaticamente pelo sistema.
 
-2. Remoção de um empregado 
+2. - [x] Remoção de um empregado 
 
 >Um empregado é removido do sistema.
 
-3. Lançar um Cartão de Ponto 
+3. - [x] Lançar um Cartão de Ponto 
 
 >O sistema anotará a informação do cartão de ponto e aassociará ao empregado correto.
 
-4. Lançar um Resultado Venda 
+4.  - [x] Lançar um Resultado Venda 
 
 >O sistema anotará a informação do resultado da venda e a associará ao empregado correto.
 
-5. Lançar uma taxa de serviço
+5. - [x] Lançar uma taxa de serviço
 
 >O sistema anotará a informação da taxa de serviço e a associará ao empregado correto.
 
-6. Alterar detalhes de um empregado 
+6. - [x] Alterar detalhes de um empregado 
 
 >Os seguintes atributos de um empregado podem ser alterados: nome, endereço,
 tipo(hourly,salaried,commisioned), método de pagamento,
 se pertence ao sindicato ou não, identificação no
 sindicato, taxa sindical
 
-7. Rodar a folha de pagamento para hoje 
+7. - [x] Rodar a folha de pagamento para hoje 
 
 >O sistema deve achar todos os empregados que devem
 ser pagos no dia indicado, deve calcular o valor do salário
 e deve providenciar o pagamento de acordo com o
 método escolhido pelo empregado.
 
-8. Undo/redo 
+8. - [ ] Undo/redo 
 
 >Qualquer transação associada as funcionalidades 1 a 7 deve ser desfeita (undo) ou refeita (redo).
 
-9. Agenda de Pagamento 
+9. - [x] Agenda de Pagamento 
 
 >Cada empregado é pago de acordo com uma "agenda de
 pagamento". Empregados podem selecionar a agenda de
@@ -94,7 +94,7 @@ pagamento que desejam. Por default, as agendas
 são usadas, como explicado na descricao geral. Posteriormente, um empregado pode pedir para
 ser pago de acordo com qualquer uma dessas agendas.
 
-10. Criação de Novas Agendas de Pagamento
+10. - [x] Criação de Novas Agendas de Pagamento
 
 >A direção da empresa pode criar uma nova agenda de
 pagamento e disponibilizá-la para os empregados
