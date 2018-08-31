@@ -1,9 +1,6 @@
-# PaymentSheet_ufal
-
->## Disciplina: Projeto de Software
->>### Professor: Baldoino Fonseca dos Santos Neto
-
-Sistema de Folha de Pagamento
+# Sistema de Folha de Pagamento
+>### Disciplina: Projeto de Software
+>### Professor: Baldoino Fonseca dos Santos Neto
 
 O objetivo do projeto é construir um sistema de folha de pagamento. O sistema consiste de um
 banco de dados de empregados de uma empresa além dos seus dados associados tais como cartões
