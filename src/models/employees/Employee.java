@@ -1,12 +1,10 @@
 package models.employees;
 
-
 import models.employees.info.Address;
 import models.employees.info.Syndicate;
 import models.employees.info.WorkedTime;
 
 import java.io.Serializable;
-
 
 public class Employee implements Serializable {
     private int id;

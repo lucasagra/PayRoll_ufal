@@ -102,7 +102,6 @@ public class Control {
     private void runDailyPayroll(Data data){
         PaymentControl paymentControl = new PaymentControl();
         LocalDate today = LocalDate.now();
-        today = LocalDate.of(2018, 8, 31);
 
         for(Employee employee: data.getEmployees()){
             if(paymentControl.paydayCheck(employee, today)){

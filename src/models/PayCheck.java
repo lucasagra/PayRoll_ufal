@@ -65,7 +65,7 @@ public class PayCheck implements Serializable {
 
         return referenceTime;
     }
-    
+
     @Override
     public String toString(){
         return  "Date: " + date + "\n" +

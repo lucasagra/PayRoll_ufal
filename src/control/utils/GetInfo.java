@@ -1,6 +1,5 @@
 package control.utils;
 
-import control.Control;
 import data.Data;
 import models.employees.info.Address;
 import models.employees.info.Syndicate;
@@ -339,6 +338,7 @@ public class GetInfo {
         for(int i = 0; i < paydays.size(); i++){
             System.out.printf("[%d] - %s%n", i+1, paydays.get(i).toString());
         }
+        System.out.println("[0] - Cancel\n");
 
         int option = -1;
         while(option < 0){

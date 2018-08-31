@@ -74,7 +74,6 @@ class EmployeeControl {
         Employee edited = editEmployee(to_edit, data);
 
         if(edited != null) data.editEmployee(to_edit, edited);
-        else new Format().operationAborted();
     }
 
     private Employee editEmployeeType(Employee employee){
@@ -170,7 +169,7 @@ class EmployeeControl {
             }
         }
 
-        return employee;
+        return null;
     }
 
     void listEmployees(List<Employee> employeeList){
