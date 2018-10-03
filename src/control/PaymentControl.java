@@ -1,21 +1,11 @@
 package control;
 
-import control.utils.Clone;
-import control.utils.Format;
-import control.utils.GetInfo;
+import control.utils.*;
 import data.Data;
-import models.PayCheck;
-import models.Sale;
-import models.SyndicateTax;
-import models.employees.Commissioned;
-import models.employees.Employee;
-import models.employees.Hourly;
-import models.employees.Salaried;
-import models.employees.info.Payment;
-import models.employees.info.WorkedTime;
-import models.payday.Monthly;
-import models.payday.Payday;
-import models.payday.Weekly;
+import models.*;
+import models.employees.*;
+import models.employees.info.*;
+import models.payday.*;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalField;
@@ -27,11 +17,7 @@ import java.util.Locale;
 class PaymentControl {
 
     private Payment getPayment(Employee employee){
-        Payment payment = null;
-        if(employee instanceof Commissioned) payment = ((Commissioned) employee).getPayment_schedule();
-        else if(employee instanceof Salaried) payment = ((Salaried) employee).getPayment_schedule();
-        else if(employee instanceof Hourly) payment = ((Hourly) employee).getPayment_schedule();
-
+        Payment payment = employee.getPayment_schedule();
         if (payment == null) throw new NullPointerException();
         return payment;
     }

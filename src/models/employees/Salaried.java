@@ -15,6 +15,7 @@ public class Salaried extends Employee {
         this.payment_schedule = new Payment(new Monthly("1"), salary, type);
     }
 
+    @Override
     public Payment getPayment_schedule() {
         return payment_schedule;
     }

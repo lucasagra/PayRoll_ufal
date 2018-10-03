@@ -1,8 +1,8 @@
 package control;
 
-import control.utils.Format;
-import control.utils.GetInfo;
-import control.utils.Search;
+import control.memento.Caretaker;
+import control.memento.Memento;
+import control.utils.*;
 import data.Data;
 import models.PayCheck;
 import models.Sale;
@@ -23,20 +23,29 @@ public class Control {
     private Format format = new Format();
     private Menu menu = new Menu();
 
-    public void main(Data data){
+    private Data data;
+    private Caretaker caretaker;
+
+    public Control(Data data){
+        this.data = data;
+        this.caretaker = new Caretaker(data);
+    }
+
+    public void main(){
 
         int option = -1;
         while(option != 0) {
             try {
-                option = menu.main();
+                option = menu.main(caretaker);
                 switch (option){
                     case 0: break;
-                    case 1: employee(data); break;
-                    case 2: inputShiftCard(data); break;
-                    case 3: inputSale(data); break;
-                    case 4: inputSyndicateTax(data); break;
-                    case 5: runDailyPayroll(data); break;
-                    case 6: newPayday(data); break;
+                    case 1: employee(); break;
+                    case 2: inputShiftCard(); break;
+                    case 3: inputSale(); break;
+                    case 4: inputSyndicateTax(); break;
+                    case 5: runDailyPayroll(); break;
+                    case 6: newPayday(); break;
+                    case 7: memento(); break;
                 }
             } catch (InputMismatchException e){
                 format.invalidInput();
@@ -44,7 +53,16 @@ public class Control {
         }
     }
 
-    private void employee(Data data){
+    private void memento(){
+        if (caretaker.hasPrevious()) {
+            this.data = caretaker.undo().getState();
+        }
+        else if (caretaker.hasNext()) {
+            this.data = caretaker.redo().getState();
+        }
+    }
+
+    private void employee(){
         EmployeeControl emp_control = new EmployeeControl();
 
         int option = -1;
@@ -53,9 +71,9 @@ public class Control {
                 option = menu.employee();
                 switch (option){
                     case 0: break;
-                    case 1: emp_control.newEmployee(data); break;
-                    case 2: emp_control.removeEmployee(data); break;
-                    case 3: emp_control.editEmployee(data); break;
+                    case 1: emp_control.newEmployee(data, caretaker); break;
+                    case 2: emp_control.removeEmployee(data, caretaker); break;
+                    case 3: emp_control.editEmployee(data, caretaker); break;
                     case 4: emp_control.listEmployees(data.getEmployees());  break;
                 }
             } catch (InputMismatchException e){
@@ -64,7 +82,7 @@ public class Control {
         }
     }
 
-    private void inputShiftCard(Data data) {
+    private void inputShiftCard() {
         int id = getinfo.id(data);
         if(id == 0) return;
         Employee employee = search.id(data.getEmployees(), id);
@@ -76,30 +94,35 @@ public class Control {
 
         employee.getWorked_hours().addDailyHours(worked_hours);
         data.addShiftCard(shiftcard);
+        caretaker.saveState(new Memento(data));
     }
 
-    private void inputSale(Data data) {
+    private void inputSale() {
         int id = getinfo.id(data);
         if(id == 0) return;
         Employee employee = search.id(data.getEmployees(), id);
 
         Sale sale = new Sale(LocalDate.now(), getinfo.salePrice());
-        data.addSale(sale);
+
         if(employee instanceof Commissioned){
             ((Commissioned) employee).addSale(sale);
         }
+
+        data.addSale(sale);
+        caretaker.saveState(new Memento(data));
     }
 
-    private void inputSyndicateTax(Data data){
+    private void inputSyndicateTax(){
         int syndicate_id = getinfo.syndId(data);
         if(syndicate_id == 0) return;
         Employee employee = search.syndId(data.getEmployees(), syndicate_id);
 
         SyndicateTax syndicate_tax = new SyndicateTax(LocalDate.now(), getinfo.taxPrice());
         employee.getSyndicate().addSyndicate_taxes(syndicate_tax);
+        caretaker.saveState(new Memento(data));
     }
 
-    private void runDailyPayroll(Data data){
+    private void runDailyPayroll(){
         PaymentControl paymentControl = new PaymentControl();
         LocalDate today = LocalDate.now();
 
@@ -115,9 +138,11 @@ public class Control {
                 }
             }
         }
+
+        caretaker.saveState(new Memento(data));
     }
 
-    private void newPayday(Data data){
+    private void newPayday(){
         GetInfo getInfo = new GetInfo();
         PaymentControl paymentControl = new PaymentControl();
 

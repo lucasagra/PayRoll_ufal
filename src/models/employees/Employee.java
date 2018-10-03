@@ -1,6 +1,7 @@
 package models.employees;
 
 import models.employees.info.Address;
+import models.employees.info.Payment;
 import models.employees.info.Syndicate;
 import models.employees.info.WorkedTime;
 
@@ -12,6 +13,7 @@ public class Employee implements Serializable {
     private Address address;
     private Syndicate syndicate;
     private WorkedTime worked_hours;
+    private Payment payment_schedule;
 
     public Employee(int id, String name, Address address, Syndicate syndicate, WorkedTime worked_hours) {
         this.id = id;
@@ -19,6 +21,7 @@ public class Employee implements Serializable {
         this.address = address;
         this.syndicate = syndicate;
         this.worked_hours = worked_hours;
+
     }
 
     public String getName(){
@@ -55,6 +58,10 @@ public class Employee implements Serializable {
 
     public void setSyndicate(Syndicate syndicate) {
         this.syndicate = syndicate;
+    }
+
+    public Payment getPayment_schedule() {
+        return payment_schedule;
     }
 
     @Override

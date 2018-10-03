@@ -1,5 +1,6 @@
 package views;
 
+import control.memento.Caretaker;
 import control.utils.Format;
 import models.employees.Commissioned;
 import models.employees.Employee;
@@ -11,17 +12,43 @@ public class Menu {
 
     private Format format = new Format();
 
-    public int main(){
-        System.out.println("Payroll System \n\n" +
-                "[1] - Manage employees\n" +
-                "[2] - Input ShiftCard\n" +
-                "[3] - Input Sale\n" +
-                "[4] - Input Syndicate Service Tax\n" +
-                "[5] - Run Daily Payroll\n" +
-                "[6] - New payday preset to calendar\n" +
-                "[0] - Exit\n");
+    public int main(Caretaker caretaker){
+        if(!caretaker.hasNext() && !caretaker.hasPrevious()) {
+            System.out.println("Payroll System \n\n" +
+                    "[1] - Manage employees\n" +
+                    "[2] - Input ShiftCard\n" +
+                    "[3] - Input Sale\n" +
+                    "[4] - Input Syndicate Service Tax\n" +
+                    "[5] - Run Daily Payroll\n" +
+                    "[6] - New payday preset to calendar\n" +
+                    "[0] - Exit\n");
 
-        return format.inputSelect(0, 6);
+            return format.inputSelect(0, 6);
+        } else if (caretaker.hasPrevious()) {
+            System.out.println("Payroll System \n\n" +
+                    "[1] - Manage employees\n" +
+                    "[2] - Input ShiftCard\n" +
+                    "[3] - Input Sale\n" +
+                    "[4] - Input Syndicate Service Tax\n" +
+                    "[5] - Run Daily Payroll\n" +
+                    "[6] - New payday preset to calendar\n" +
+                    "[7] - Undo\n" +
+                    "[0] - Exit\n");
+
+            return format.inputSelect(0, 7);
+        } else {
+            System.out.println("Payroll System \n\n" +
+                    "[1] - Manage employees\n" +
+                    "[2] - Input ShiftCard\n" +
+                    "[3] - Input Sale\n" +
+                    "[4] - Input Syndicate Service Tax\n" +
+                    "[5] - Run Daily Payroll\n" +
+                    "[6] - New payday preset to calendar\n" +
+                    "[7] - Redo\n" +
+                    "[0] - Exit\n");
+
+            return format.inputSelect(0, 7);
+        }
     }
 
     public int employee(){
