@@ -28,7 +28,7 @@ public class Main {
             ois.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("File doesn't found, creating a new data file.");
+            System.out.println("File not found, creating a new data file.");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -41,7 +41,7 @@ public class Main {
 
     public static void main(String[] args) {
         Data data = load(new Data());
-        new Control().main(data);
+        new Control(data).main();
         save(data);
     }
 }

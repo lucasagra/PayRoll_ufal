@@ -15,6 +15,7 @@ public class Hourly extends Employee {
         this.payment_schedule = new Payment(new Weekly(1,5), income, type);
     }
 
+    @Override
     public Payment getPayment_schedule() {
         return payment_schedule;
     }

@@ -52,13 +52,13 @@ public class PayCheck implements Serializable {
     private String referenceTime(){
         String referenceTime = "";
         if(employee instanceof Commissioned) {
-            Payday payday = ((Commissioned) employee).getPayment_schedule().getPayday();
+            Payday payday = employee.getPayment_schedule().getPayday();
             if(payday instanceof Weekly)
-                referenceTime = ((Weekly)((Commissioned) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
+                referenceTime = ((Weekly) employee.getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
             else if(payday instanceof Monthly)
                 referenceTime = "1 Month\n";
         } else if(employee instanceof Hourly){
-            referenceTime = ((Weekly)((Hourly) employee).getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
+            referenceTime = ((Weekly) employee.getPayment_schedule().getPayday()).getFrequency() + " Week(s)\n";
         } else if(employee instanceof Salaried) {
             referenceTime = "1 Month\n";
         }
