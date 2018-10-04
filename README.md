@@ -81,7 +81,7 @@ ser pagos no dia indicado, deve calcular o valor do salário
 e deve providenciar o pagamento de acordo com o
 método escolhido pelo empregado.
 
-8. - [ ] Undo/redo 
+8. - [x] Undo/redo 
 
 >Qualquer transação associada as funcionalidades 1 a 7 deve ser desfeita (undo) ou refeita (redo).
 
