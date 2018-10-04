@@ -1,4 +1,4 @@
-package control.factory;
+package control.factory.employee;
 
 import control.utils.GetInfo;
 import models.employees.Commissioned;

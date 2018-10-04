@@ -2,7 +2,7 @@
  * This Interface implements the Factory Method Pattern
  */
 
-package control.factory;
+package control.factory.employee;
 
 import models.employees.Employee;
 
