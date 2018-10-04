@@ -1,3 +1,8 @@
+/*
+ * This Interface and all of its inside packages
+ * implements the Command Design Pattern
+ */
+
 package control.command;
 
 import control.memento.Caretaker;

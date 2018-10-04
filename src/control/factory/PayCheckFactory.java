@@ -86,6 +86,5 @@ public class PayCheckFactory {
 
         employee.setWorked_hours(new WorkedTime());
         return new PayCheck(employeeCopy, date, amount, sales, synd_service_taxes, total_sales);
-
     }
 }
