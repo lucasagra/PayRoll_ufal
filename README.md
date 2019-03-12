@@ -2,7 +2,7 @@
 >### Disciplina: Projeto de Software
 >### Professor: Baldoino Fonseca dos Santos Neto
 
-`Por questões acadêmicas, este projeto foi refatorado com os padrões de projeto Commander, Abstract Factory e Memento`
+`Por questões acadêmicas, este projeto foi refatorado com os padrões de projeto Commander, Factory Method e Memento`
 
 O objetivo do projeto é construir um sistema de folha de pagamento. O sistema consiste de um
 banco de dados de empregados de uma empresa além dos seus dados associados tais como cartões
